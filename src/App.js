@@ -4,10 +4,11 @@ import Product from './Product';
 import citroenen from './assets/citroenen.jpeg';
 import limoenen from './assets/limoenen.png';
 import ijsblokjes from './assets/ijsblokjes.jpg';
-import { ReactComponent as Shoppingcart } from './assets/winkelmandje.svg';
+import {ReactComponent as Shoppingcart} from './assets/winkelmandje.svg';
 
 function App() {
     const [messageValue, setMessageValue] = React.useState('')
+    const [checkedTerms, toggleCheckedTerms] = React.useState(false)
     return (
         <>
             <nav>
@@ -49,16 +50,33 @@ function App() {
                     <h2>Contactformulier</h2>
 
                     <form>
-                        <input
-                            type='text'
-                            placeholder='Typ hier uw bericht'
-                            name='message'
-                            value={messageValue}
-                            onChange={(e) => setMessageValue(e.target.value)}
-                        />
+                        <label htmlFor="message">
+                            Bericht:
+                            <input
+                                type='text'
+                                placeholder='Typ hier uw bericht'
+                                name='message'
+                                className={messageValue.length > 20 ? 'input-error' : 'input-normal'}
+                                value={messageValue}
+                                onChange={(e) => setMessageValue(e.target.value)}
+                            />
+                            {messageValue.length > 20 && <p className='error-message'>Dit bericht is te lang!</p>}
+                        </label>
+                        <label htmlFor='terms-and-conditions'>
+                            <input type='checkbox'
+                                   name='terms=and-conditions'
+                                   id='terms-and-conditions'
+                                   checked={checkedTerms}
+                                   onChange={() => toggleCheckedTerms(!checkedTerms)}
+                            />
+                            Ik ga akkoord met de algemene voorwaarden.
+                        </label>
                     </form>
 
-                    <button type='submit'>
+                    <button
+                        disabled={!checkedTerms}
+                        type='submit'
+                    >
                         Verstuur
                     </button>
                 </div>
